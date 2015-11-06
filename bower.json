@@ -1,0 +1,28 @@
+{
+  "name": "emrchain-node",
+  "version": "0.0.0",
+  "dependencies": {
+    "backbone": "~1.2.2",
+    "backbone.babysitter": "~0.1.9",
+    "backbone.marionette": "~2.4.2",
+    "backbone.paginator": "~2.0.2",
+    "backbone.wreqr": "~1.3.4",
+    "backgrid": "git://github.com/wyuenho/backgrid.git#6fe21ede580b81e370653dc31a8aa2034136aafc",
+    "backgrid-filter": "git://github.com/wyuenho/backgrid-filter.git#01b2b217b8a3fbf2f240b882b338284632bae791",
+    "backgrid-paginator": "git://github.com/wyuenho/backgrid-paginator.git#03632df8ad238e3d043c0fd471a6c78494e1bdfc",
+    "chai": "~3.2.0",
+    "jquery": "~2.1.4",
+    "mocha": "~2.3.0",
+    "modernizr": "~2.8.3",
+    "moment": "~2.10.6",
+    "require-handlebars-plugin": "~0.11.3",
+    "requirejs": "~2.1.5",
+    "requirejs-text": "~2.0.5",
+    "sass-bootstrap": "~3.0.2",
+    "sinon": "~1.16.1",
+    "spin.js": "~2.3.2",
+    "underscore": "~1.8.3"
+  },
+  "devDependencies": {},
+  "directory": "bower_components"
+}
