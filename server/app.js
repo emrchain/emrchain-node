@@ -65,15 +65,11 @@ app.post('/patient', function(req, res){
 
 app.post('/record', function(req, res){
 	console.log('Create Medical Record');
-	console.log(req.body);
-	var patientId = req.body.patientId;
-	console.log(patientId)
 	var medicalRecord = {
-		patientId = req.body.patientId
-		// dateofBirth = req.body.dateofBirth,
-		// gender = req.body.gender
-    	}
-	console.log('Dump');
+		patientId : req.body.patientId,
+		dateofBirth : req.body.dateofBirth,
+		gender : req.body.gender
+    	};
 	console.log(medicalRecord);
 	res.status(201).json({
 		record: { }
