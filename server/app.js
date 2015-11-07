@@ -71,7 +71,11 @@ app.get('/patient/:patientAddress', function(req, res){
 		for(var i=0 ; i<body.utxos.length;i++){
 	        for(var j=0 ; j<body.utxos[i].assets.length;j++){
 	        	console.log(body.utxos[i].assets[j]);
-	        	records.push(body.utxos[i].assets[j].assetId);
+	        	var item = {
+	        		"assetId" : body.utxos[i].assets[j].assetId,
+	        		"blocktime" : body.utxos[i].blocktime
+	        	}
+	        	records.push(item);
 	        }
 	    }
 
@@ -129,7 +133,6 @@ app.post('/record', function(req, res){
     	}]
 	};
 
-	console.log("Create asset");
 	console.log("Create & Send asset");
 	colu.issueAsset(asset, function (err, body) {
 		if (err) {
