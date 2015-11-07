@@ -46,6 +46,7 @@ app.use(express.static( path.join( __dirname, '../.tmp') ));
 
 app.use(bodyParser.json())
 
+
 // route index.html
 app.get('/', function(req, res){
   res.sendfile( path.join( __dirname, '../app/index.html' ) );
@@ -56,6 +57,19 @@ app.post('/patient', function(req, res){
 	var keyPair = bitcoin.ECPair.makeRandom();
 	console.log('Created Patient Private Key', keyPair.toWIF());
 	console.log('Created Patient Public Key', keyPair.getAddress());
+	res.status(201).json({
+		patient: {
+			public_key: keyPair.getAddress(),
+			private_key: keyPair.toWIF()
+		}
+	});
+});
+
+app.post('/doctor', function(req, res){
+	console.log('Create Doctor');
+	var keyPair = bitcoin.ECPair.makeRandom();
+	console.log('Created Doctor Private Key', keyPair.toWIF());
+	console.log('Created Doctor Public Key', keyPair.getAddress());
 	res.status(201).json({
 		patient: {
 			public_key: keyPair.getAddress(),
@@ -90,6 +104,15 @@ app.post('/record', function(req, res){
     });
 
 });
+
+app.get('/record', function(req, res){
+	console.log('Get Medical Record by Asset Address');
+	console.log(req.query);
+	res.status(201).json({
+		record: { }
+	});
+});
+
 
 // start server
 http.createServer(app).listen(app.get('port'), function(){
