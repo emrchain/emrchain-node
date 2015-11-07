@@ -1,7 +1,7 @@
 define([
 	'backbone',
 	'collections/mrecords',
-	'views/item/mrecord_view',
+	'../item/get_patient_view',
 	'hbs!tmpl/collection/mrecords_view_tmpl'
 ],
 function( Backbone, MRecordsCollection, MRecordItemView, MRecordsViewTmpl ) {

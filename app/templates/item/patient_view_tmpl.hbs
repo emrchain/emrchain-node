@@ -2,6 +2,22 @@
 
 <div class="register-patient">
     <pre id="messages" class="alert alert-success hidden" role="alert"></pre>
+    <div id="qrMessages" class="hidden">
+        <div class="row">
+            <div class="col-md-4">
+                <p>
+                    Public Key: <pre id="publicKey"></pre>
+                </p>
+                <img id="publicKeyImg" src="#" />
+            </div>
+            <div class="col-md-5">
+                <p>
+                    Private Key: <pre id="privateKey"></pre>
+                </p>
+                <img id="privateKeyImg" src="#" />
+            </div>
+        </div>
+    </div>
     <div class="form-group">
         <label for="patientName">First Name</label>
         <input type="text" class="form-control" id="firstName" required value="{{ firstName }}">

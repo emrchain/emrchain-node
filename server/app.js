@@ -9,16 +9,20 @@ var baucis = require('baucis');
 var Colu = require('colu');
 var bitcoin = require('bitcoinjs-lib');
 var bodyParser = require('body-parser');
-var util = require('util')     ;
+var util = require('util');
+var Redis = require('ioredis');
+
+var ourServer = '159.122.238.144';
 
 var coluSettings = {
 	network: 'testnet',
 	privateSeed: '5b5dc4509ff10a38b90916f23ab3fb50a534ddcb30f6cd003f8eb8ca09eb02af',
-	redisHost: '159.122.238.144'
+	redisHost: ourServer
 };
 
 // init express
 var app = express();
+var redis = new Redis(6379, ourServer);
 var colu = new Colu(coluSettings);
 app.use(bodyParser());
 
@@ -45,7 +49,7 @@ app.use(function(req, res, next){
 app.use(express.static( path.join( __dirname, '../app') ));
 app.use(express.static( path.join( __dirname, '../.tmp') ));
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 
 // route index.html
@@ -71,10 +75,10 @@ app.post('/doctor', function(req, res){
 	var keyPair = bitcoin.ECPair.makeRandom();
 	console.log('Created Doctor Private Key', keyPair.toWIF());
 	console.log('Created Doctor Public Key', keyPair.getAddress());
+	redis.set(keyPair.toWIF(), keyPair.getAddress());
 	res.status(201).json({
 		patient: {
-			public_key: keyPair.getAddress(),
-			private_key: keyPair.toWIF()
+			public_key: keyPair.getAddress()
 		}
 	});
 });
@@ -91,22 +95,21 @@ app.post('/record', function(req, res){
 
 	var asset = {
     	amount: 1,
-	    metadata: {
-	    	medicalRecord : medicalRecord
-	    }
-	}
+		reissueable: false,
+	    metadata: medicalRecord
+	};
 
 	colu.issueAsset(asset, function (err, body) {
         if (err) return console.error(err);
-        console.log(body.issueAddress);      
-        console.log(body.receivingAddresses);      
+        console.log(body.issueAddress);
+        console.log(body.receivingAddresses);
        res.status(201).json({
 			record: { 
 				"assetId" : body.assetId,
 				"issueAddress" : body.issueAddress
 			 }
 		});
-    });	
+    });
 
 });
 

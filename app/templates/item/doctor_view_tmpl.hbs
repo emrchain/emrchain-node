@@ -1,13 +1,30 @@
 <h1 class="page-header">Register a Doctor</h1>
 
 <div class="register-doctor">
+    <pre id="messages" class="alert alert-success hidden" role="alert"></pre>
+    <div id="qrMessages" class="hidden">
+        <div class="row">
+            <div class="col-md-4">
+				<p>
+					Public Key: <pre id="publicKey"></pre>
+				</p>
+				<img id="publicKeyImg" src="#" />
+            </div>
+        </div>
+    </div>
     <div class="form-group">
-        <label for="doctorName">Doctor's Name</label>
+        <label for="doctorName">First Name</label>
         <input type="text" class="form-control" id="doctorName" required value="{{ doctorName }}">
-        <label for="doctorLastname">Doctor's Lastname</label>
+    </div>
+    <div class="form-group">
+        <label for="doctorLastname">Last Name</label>
         <input type="text" class="form-control" id="doctorLastname" required value="{{ doctorLastname }}">
-        <label for="doctorId">Doctor's ID</label>
+    </div>
+    <div class="form-group">
+        <label for="doctorId">National ID Number</label>
         <input type="text" class="form-control" id="doctorId" required value="{{ doctorId }}">
+    </div>
+    <div class="form-group">
         <label for="doctorLocation">Location</label>
         <input type="text" class="form-control" id="doctorLocation" required value="{{ doctorLocation }}">
     </div>
