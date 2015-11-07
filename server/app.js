@@ -45,6 +45,7 @@ app.use(express.static( path.join( __dirname, '../app') ));
 app.use(express.static( path.join( __dirname, '../.tmp') ));
 
 
+
 // route index.html
 app.get('/', function(req, res){
   res.sendfile( path.join( __dirname, '../app/index.html' ) );
@@ -75,6 +76,15 @@ app.post('/record', function(req, res){
 		record: { }
 	});
 });
+
+app.get('/record', function(req, res){
+	console.log('Get Medical Record by Asset Address');
+	console.log(req.query);
+	res.status(201).json({
+		record: { }
+	});
+});
+
 
 // start server
 http.createServer(app).listen(app.get('port'), function(){
