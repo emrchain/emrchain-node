@@ -94,7 +94,7 @@ app.post('/doctor', function(req, res){
 
 app.post('/record', function(req, res){
 	console.log('Create Medical Record');
-
+	var toAddress = req.body.toAddress;
 	var medicalRecord = {
 		patientId : req.body.patientId,
 		dateOfBirth : req.body.dateOfBirth,
@@ -107,31 +107,40 @@ app.post('/record', function(req, res){
 	    metadata: medicalRecord
 	};
 
-	colu.issueAsset(asset, function (err, body) {
-        if (err) return console.error(err);
-        console.log(body.issueAddress);
-        console.log(body.receivingAddresses);
-       res.status(201).json({
-			record: {
-				"assetId" : body.assetId,
-				"issueAddress" : body.issueAddress
-			 }
-		});
-    });
+	async.waterfall([
+		function createAsset( cbAsync ){
+			console.log("Create asset");
+			colu.issueAsset(asset, function (err, body) {
+		        if (err) {
+					console.log("Create asset - error");
+		        	cbAsync(err)
+		        }
+		        console.log("issue address" + body.issueAddress);
+		        console.log("receiving address" + body.receivingAddresses[0]);
+				cbAsync(null, body.assetId, body.issueAddress, toAddress, res);
+		    });
+
+		},
+		function sendAsset(assetId, fromAddress, toAddress,res, cbAsync){
+			transferAsset (assetId, toAddress, fromAddress, res);
+			cbAsync(null);
+		}
+	], function asyncComplete(err) {
+        if ( err ) {
+			console.log("Final error");
+            console.log(err);
+        }
+		console.log("complete");
+	});
 
 });
-
-app.put('/record', function(req, res){
+function transferAsset (assetId, toAddress, fromAddress, res) {
 	console.log('Transfer Medical Record');
-
-	var toAddress = req.query.toAddress;
-	var fromAddress = req.query.fromAddress;
- 
  	var args = {
 	    from: [fromAddress],
 	    to: [{
 	    		address: toAddress,
-		        assetId: req.query.assetId,
+		        assetId: assetId,
 		        amount: 1
 		    }]
 	};
@@ -140,10 +149,19 @@ app.put('/record', function(req, res){
         if (err) return console.error(err);
         console.log(body);
        res.status(201).json({
-			record: { "txid" : body.txid }
+			record: { 
+				"txid" : body.txid, 						
+				"assetId" : body.assetId,
+				"issueAddress" : body.issueAddress
+			}
 		});
     });
-
+}
+app.put('/record', function(req, res){
+	var toAddress = req.query.toAddress;
+	var fromAddress = req.query.fromAddress;
+	var assetId = req.query.assetId;
+	transferAsset(assetId, toAddress, fromAddress, res);
 });
 
 
