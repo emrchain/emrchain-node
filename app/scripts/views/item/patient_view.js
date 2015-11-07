@@ -51,9 +51,7 @@ function( Backbone, PatientModel, PatientViewTmpl  ) {
 				dateOfBirth: this.ui.dateOfBirth.val()
 			}, { success: function(model, response) {
 				console.log("success", self);
-				self.ui.messages.html("Successfully created Patient:\n" +
-					"Private Key: " + response.patient.private_key + "\n" +
-					"Public Key: " + response.patient.public_key);
+				self.ui.messages.html("Successfully created Patient!");
 				self.ui.messages.removeClass('hidden');
 				self.ui.qrMessages.removeClass('hidden');
 				self.ui.publicKey.html(response.patient.public_key);

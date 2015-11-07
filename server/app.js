@@ -57,6 +57,15 @@ app.get('/', function(req, res){
   res.sendfile( path.join( __dirname, '../app/index.html' ) );
 });
 
+app.get('/patient/:patientAddress', function(req, res){
+	colu.coloredCoins.getAddressInfo(req.params.patientAddress, function (err, body) {
+		if (err) return console.error(err);
+		console.log(body);
+		// verify etc. res.status(200).json({});
+		res.status(404).json({});
+	});
+});
+
 app.post('/patient', function(req, res){
 	console.log('Create Patient');
 	var keyPair = bitcoin.ECPair.makeRandom();
@@ -88,7 +97,7 @@ app.post('/record', function(req, res){
 
 	var medicalRecord = {
 		patientId : req.body.patientId,
-		dateofBirth : req.body.dateOfBirth,
+		dateOfBirth : req.body.dateOfBirth,
 		gender : req.body.gender
 	};
 	console.log(medicalRecord);
@@ -103,7 +112,7 @@ app.post('/record', function(req, res){
         console.log(body.issueAddress);
         console.log(body.receivingAddresses);
        res.status(201).json({
-			record: { 
+			record: {
 				"assetId" : body.assetId,
 				"issueAddress" : body.issueAddress
 			 }
@@ -125,15 +134,15 @@ app.put('/record', function(req, res){
 		        assetId: req.query.assetId,
 		        amount: 1
 		    }]
-	}
+	};
 	console.log(args);
 	colu.sendAsset(args, function (err, body) {
         if (err) return console.error(err);
-        console.log(body);      
+        console.log(body);
        res.status(201).json({
 			record: { "txid" : body.txid }
 		});
-    });	
+    });
 
 });
 
