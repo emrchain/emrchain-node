@@ -2,9 +2,13 @@ define([
 		'backbone',
 		'backbone.marionette',
 		'globals',
-		'hbs!tmpl/layout/app_container_tmpl'
+		'hbs!tmpl/layout/app_container_tmpl',
+		'views/item/doctor_view',
+		'views/item/patient_view',
+		'views/item/mrecord_view',
+		'views/collection/mrecords_view'
 	],
-	function( Backbone, Marionette, Globals, AppContainerTmpl ) {
+	function( Backbone, Marionette, Globals, AppContainerTmpl, DoctorView, PatientView, MRecordView, MRecordsView ) {
 		'use strict';
 
 		/* Return a Layout class definition */
@@ -23,11 +27,17 @@ define([
 			},
 
 			ui: {
-				'navBlah': '#nav-blah'
+				'navDoctors': '#nav-doctors',
+				'navPatients': '#nav-patients',
+				'navCreateRecords': '#nav-create-records',
+				'navLookupHistory': '#nav-lookup-history'
 			},
 
 			events: {
-				'click #nav-blah' : 'onNavBlahClicked'
+				'click #nav-doctors' : 'onNavDoctorsClicked',
+				'click #nav-patients' : 'onNavPatientsClicked',
+				'click #nav-create-records' : 'onNavCreateRecordsClicked',
+				'click #nav-lookup-history' : 'onNavLookupHistoryClicked'
 			},
 
 			onRender: function() {
@@ -39,12 +49,25 @@ define([
 				var capturedThis = this;
 
 				var appRouteHandler = {
-					'' : 'onBlahRoute'
+					'' : 'onCreateRecordsRoute',
+					'doctors' : 'onDoctorsRoute',
+					'patients' : 'onPatientsRoute',
+					'create-records' : 'onCreateRecordsRoute',
+					'lookup-history' : 'onLookupHistoryRoute'
 				};
 
 				var appRouterController = {
-					onBlahRoute: function() {
-						capturedThis.onBlahNavigated();
+					onDoctorsRoute: function() {
+						capturedThis.onDoctorsNavigated();
+					},
+					onPatientsRoute: function() {
+						capturedThis.onPatientsNavigated();
+					},
+					onCreateRecordsRoute: function() {
+						capturedThis.onCreateRecordsNavigated();
+					},
+					onLookupHistoryRoute: function() {
+						capturedThis.onLookupHistoryNavigated();
 					}
 				};
 
@@ -59,12 +82,33 @@ define([
 				});
 			},
 
-			onBlahNavigated: function() {
-				//var registrationView = new RegistrationView({ coluApiKey: Globals.coluApiKey });
-				//this.contentRegion.show(registrationView);
+			onDoctorsNavigated: function() {
+				var doctorView = new DoctorView({ coluApiKey: Globals.coluApiKey });
+				this.contentRegion.show(doctorView);
 
 				this.$el.find('.navButton.active').removeClass('active');
-				this.ui.navBlah.addClass('active');
+				this.ui.navDoctors.addClass('active');
+			},
+			onPatientsNavigated: function() {
+				var patientView = new PatientView({ coluApiKey: Globals.coluApiKey });
+				this.contentRegion.show(patientView);
+
+				this.$el.find('.navButton.active').removeClass('active');
+				this.ui.navPatients.addClass('active');
+			},
+			onCreateRecordsNavigated: function() {
+				var mRecordView = new MRecordView({ coluApiKey: Globals.coluApiKey });
+				this.contentRegion.show(mRecordView);
+
+				this.$el.find('.navButton.active').removeClass('active');
+				this.ui.navCreateRecords.addClass('active');
+			},
+			onLookupHistoryNavigated: function() {
+				var mRecordsView = new MRecordsView({ coluApiKey: Globals.coluApiKey });
+				this.contentRegion.show(mRecordsView);
+
+				this.$el.find('.navButton.active').removeClass('active');
+				this.ui.navLookupHistory.addClass('active');
 			}
 		});
 
