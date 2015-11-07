@@ -45,6 +45,7 @@ app.use(function(req, res, next){
 app.use(express.static( path.join( __dirname, '../app') ));
 app.use(express.static( path.join( __dirname, '../.tmp') ));
 
+app.use(bodyParser.json())
 
 
 // route index.html
@@ -65,17 +66,44 @@ app.post('/patient', function(req, res){
 	});
 });
 
+app.post('/doctor', function(req, res){
+	console.log('Create Doctor');
+	var keyPair = bitcoin.ECPair.makeRandom();
+	console.log('Created Doctor Private Key', keyPair.toWIF());
+	console.log('Created Doctor Public Key', keyPair.getAddress());
+	res.status(201).json({
+		patient: {
+			public_key: keyPair.getAddress(),
+			private_key: keyPair.toWIF()
+		}
+	});
+});
+
 app.post('/record', function(req, res){
 	console.log('Create Medical Record');
+	
 	var medicalRecord = {
 		patientId : req.body.patientId,
 		dateofBirth : req.body.dateofBirth,
 		gender : req.body.gender
     	};
 	console.log(medicalRecord);
-	res.status(201).json({
-		record: { }
-	});
+	
+	var asset = {
+    amount: 1,
+	    metadata: {
+	    	medicalRecord
+	    }
+	}
+
+	colu.issueAsset(asset, function (err, body) {
+        if (err) return console.error(err);        
+        
+       res.status(201).json({
+			record: { "assetId" : body.assetId }
+		});
+    });
+
 });
 
 app.get('/record', function(req, res){
@@ -104,4 +132,3 @@ http.createServer(app).listen(app.get('port'), function(){
 
 
 colu.init();
-
