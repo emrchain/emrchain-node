@@ -12,7 +12,7 @@ function( Backbone ) {
 			console.log("initialize a Patient model");
 		},
 
-		defaults: {},
+		defaults: {}
 
     });
 });

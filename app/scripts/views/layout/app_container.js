@@ -86,8 +86,7 @@ define([
 			},
 
 			onDoctorsNavigated: function() {
-				var doctor = new DoctorModel();
-				var doctorView = new DoctorView({ model: doctor });
+				var doctorView = new DoctorView();
 				this.contentRegion.show(doctorView);
 
 				this.$el.find('.navButton.active').removeClass('active');
@@ -101,8 +100,7 @@ define([
 				this.ui.navPatients.addClass('active');
 			},
 			onCreateRecordsNavigated: function() {
-				var mrecord = new MRecordModel();
-				var mRecordView = new MRecordView({ model: mrecord });
+				var mRecordView = new MRecordView();
 				this.contentRegion.show(mRecordView);
 
 				this.$el.find('.navButton.active').removeClass('active');

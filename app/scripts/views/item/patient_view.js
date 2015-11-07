@@ -12,7 +12,6 @@ function( Backbone, PatientModel, PatientViewTmpl  ) {
 		initialize: function() {
 			this.model = new PatientModel();
 			console.log("initialize a PatientView ItemView");
-			console.log('model->', this.model);
 		},
 
     	template: PatientViewTmpl,
@@ -21,8 +20,12 @@ function( Backbone, PatientModel, PatientViewTmpl  ) {
 
     	/* ui selector cache */
     	ui: {
-			patientName: '#patientName',
-			registerPatientButton: '#register-button'
+			firstName: '#firstName',
+			lastName: '#lastName',
+			ppsNumber: '#ppsNumber',
+			dateOfBirth: '#dateOfBirth',
+			registerPatientButton: '#register-button',
+			messages: '#messages'
 		},
 
 		/* Ui events hash */
@@ -35,11 +38,19 @@ function( Backbone, PatientModel, PatientViewTmpl  ) {
 		},
 
 		onClickRegisterPatient: function(e) {
-			this.model.set({
-				patientName: this.ui.patientName.val()
-			});
-			console.log('model', this.model);
-			this.model.save();
+			var self = this;
+			this.model.save({
+				firstName: this.ui.firstName.val(),
+				lastName: this.ui.lastName.val(),
+				ppsNumber: this.ui.ppsNumber.val(),
+				dateOfBirth: this.ui.dateOfBirth.val()
+			}, { success: function(model, response) {
+				console.log("success", self);
+				self.ui.messages.html("Successfully created Patient:\n" +
+					"Private Key: " + response.patient.private_key + "\n" +
+					"Public Key: " + response.patient.public_key);
+				self.ui.messages.removeClass('hidden');
+			}});
 		}
 	});
 
