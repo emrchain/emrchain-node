@@ -146,7 +146,7 @@ app.put('/record', function(req, res){
 		        assetId: req.query.assetId,
 		        amount: 1
 		    }]
-	}
+	};
 	console.log(args);
 	colu.sendAsset(args, function (err, body) {
         if (err) return console.error(err);
