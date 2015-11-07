@@ -118,36 +118,28 @@ app.post('/record', function(req, res){
 	console.log(medicalRecord);
 	var asset = {
     	amount: 1,
-		reissueable: false,
-	    metadata: medicalRecord
+ 		reissueable: false,
+	    metadata: medicalRecord,
+	    transfer: [{
+        	address: toAddress, 
+        	amount: 1
+    	}]
 	};
 
-	async.waterfall([
-		function createAsset( cbAsync ){
-			console.log("Create asset");
-			colu.issueAsset(asset, function (err, body) {
-		        if (err) {
-					console.log("Create asset - error");
-		        	cbAsync(err)
-		        }
-		        console.log("issue address" + body.issueAddress);
-		        console.log("receiving address" + body.receivingAddresses[0]);
-				cbAsync(null, body.assetId, body.issueAddress, toAddress, res);
-		    });
-
-		},
-		function sendAsset(assetId, fromAddress, toAddress,res, cbAsync){
-			transferAsset (assetId, toAddress, fromAddress, res);
-			cbAsync(null);
-		}
-	], function asyncComplete(err) {
-        if ( err ) {
-			console.log("Final error");
-            console.log(err);
-        }
-		console.log("complete");
-	});
-
+	console.log("Create asset");
+	colu.issueAsset(asset, function (err, body) {
+        if (err) return console.error(err);
+        console.log("issue address" + body.issueAddress);
+        console.log("receiving address" + body.receivingAddresses[0]);
+        console.log(body);
+		res.status(201).json({
+			record: { 
+				"txid" : body.txid, 						
+				"assetId" : body.assetId,
+				"issueAddress" : body.issueAddress
+			}
+		});
+    });
 });
 function transferAsset (assetId, toAddress, fromAddress, res) {
 	console.log('Transfer Medical Record');
@@ -199,6 +191,18 @@ app.get('/record', function(req, res){
     })
 });
 
+app.get('/stakeholders/:assetId', function(req, res){
+	console.log('Get stakeholders by Asset id');
+	console.log(req.params.assetId);
+    colu.coloredCoins.getStakeHolders(req.params.assetId,function (err, body) {
+        if (err) return console.error(err);
+        console.log("Body: ",body)
+		res.status(201).json({
+			record: {
+			}
+		});
+    })
+});
 
 
 // start server
