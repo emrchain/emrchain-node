@@ -57,7 +57,9 @@ function( Backbone, Global, QRCode, QCodeDecoder, GetPatientViewTmpl  ) {
 				contentType: 'application/json; charset=utf-8',
 				success: function (response) {
 					console.log(response);
-					self.model.set({ patientAddress: patientAddressVal });
+					self.model.set({
+						patientAddress: patientAddressVal
+					});
 					self.model.trigger('gotPatient');
 				},
 				error:function (xhr, ajaxOptions, thrownError){

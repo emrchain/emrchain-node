@@ -8,12 +8,31 @@
             <input type="text" class="form-control" id="patientAddress" disabled value="{{ patientAddress }}">
         </div>
         <div class="form-group">
-            <label for="patientBloodType">Patient Blood Type</label>
-            <input type="text" class="form-control" id="patientBloodType" required value="{{ patientBloodType }}">
+            <label for="gender">Gender</label>
+			{{#if gender}}
+                <input type="text" class="form-control" id="gender" disabled value="{{ gender }}">
+			{{else}}
+                <select class="form-control" id="gender" required>
+                    <option selected="selected">Female</option>
+                    <option>Male</option>
+                </select>
+			{{/if}}
         </div>
         <div class="form-group">
             <label for="dateOfBirth">Date of Birth</label>
-            <input type="date" class="form-control" id="dateOfBirth" required value="{{ dateOfBirth }}">
+			{{#if dateOfBirth}}
+            	<input type="date" class="form-control" id="dateOfBirth" disabled value="{{ dateOfBirth }}">
+			{{else}}
+				<input type="date" class="form-control" id="dateOfBirth" required>
+			{{/if}}
+        </div>
+        <div class="form-group">
+            <label for="patientBloodType">Patient Blood Type</label>
+			{{#if patientBloodType}}
+                <input type="text" class="form-control" id="patientBloodType" disabled value="{{ patientBloodType }}">
+			{{else}}
+                <input type="text" class="form-control" id="patientBloodType" required>
+			{{/if}}
         </div>
         <button id="create-record-button" class="btn btn-default">Save Record</button>
     </div>
