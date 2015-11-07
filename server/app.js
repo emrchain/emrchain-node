@@ -159,11 +159,7 @@ app.post('/doctor', function(req, res){
 app.post('/record', function(req, res){
 	console.log('Create Medical Record');
 	var toAddress = req.body.patientId;
-	var medicalRecord = {
-		patientId : req.body.patientId,
-		dateOfBirth : req.body.dateOfBirth,
-		gender : req.body.gender
-	};
+	var medicalRecord = req.body;
 	console.log(medicalRecord);
 	var asset = {
     	amount: 1,
@@ -194,14 +190,6 @@ app.post('/record', function(req, res){
 	});
 });
 
-app.put('/record', function(req, res){
-	var toAddress = req.query.toAddress;
-	var fromAddress = req.query.fromAddress;
-	var assetId = req.query.assetId;
-	transferAsset(assetId, toAddress, fromAddress, res);
-});
-
-
 app.get('/record', function(req, res){
 	console.log('Get Medical Record by Asset Address');
 	console.log(req.query);
@@ -226,11 +214,8 @@ app.get('/stakeholders/:assetId', function(req, res){
 	console.log(req.params.assetId);
     colu.coloredCoins.getStakeHolders(req.params.assetId,function (err, body) {
         if (err) return console.error(err);
-        console.log("Body: ",body)
-		res.status(201).json({
-			record: {
-			}
-		});
+        console.log("Body: ",body);
+		res.status(201).json({ record: {} });
     })
 });
 

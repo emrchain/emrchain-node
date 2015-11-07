@@ -20,6 +20,8 @@ define([
 				patientAddress: '#patientAddress',
 				patientBloodType: '#patientBloodType',
 				dateOfBirth: '#dateOfBirth',
+				gender: '#gender',
+				medicalActionsTaken: '#medicalActionsTaken',
 				saveRecordButton: '#create-record-button',
 				messages: '#messages'
 			},
@@ -37,7 +39,9 @@ define([
 				this.model.save({
 					patientId: this.ui.patientAddress.val(),
 					dateOfBirth: this.ui.dateOfBirth.val(),
-					patientBloodType: this.ui.patientBloodType.val()
+					patientBloodType: this.ui.patientBloodType.val(),
+					gender: this.ui.gender.val(),
+					medicalActionsTaken: this.ui.medicalActionsTaken.val()
 				}, { success: function(model, response) {
 					console.log("success", self.ui);
 					self.ui.messages.html("Successfully created Medical Record!");
