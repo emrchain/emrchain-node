@@ -41,11 +41,13 @@ function( Backbone, Global, GetPatientViewTmpl  ) {
 				success: function (response) {
 					console.log(response);
 					self.model.set({ patientAddress: patientAddressVal });
+					self.model.trigger('gotPatient');
 				},
 				error:function (xhr, ajaxOptions, thrownError){
 					if(xhr.status==404) {
 						console.log('Patient not found, create a new one.');
 						self.model.set({ patientAddress: patientAddressVal });
+						self.model.trigger('gotPatient');
 					}
 					// TODO handle else
 				}

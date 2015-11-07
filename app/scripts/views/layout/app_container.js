@@ -101,7 +101,8 @@ define([
 			},
 			onCreateRecordsNavigated: function() {
 				var model = new MRecordModel();
-				model.on('change', this.onCreatePatientRecord, this);
+				var self = this;
+				model.on('gotPatient', function() {self.onCreatePatientRecord(model)});
 				var getPatientView = new GetPatientView({model: model});
 				this.contentRegion.show(getPatientView);
 

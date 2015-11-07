@@ -14,13 +14,12 @@ define([
 			},
 
 			template: MRecordViewTmpl,
-			tagName: 'div',
-			className: 'create-record',
 
 			/* ui selector cache */
 			ui: {
 				patientAddress: '#patientAddress',
 				patientBloodType: '#patientBloodType',
+				dateOfBirth: '#dateOfBirth',
 				saveRecordButton: '#create-record-button',
 				messages: '#messages'
 			},
@@ -36,10 +35,11 @@ define([
 			onClickSaveRecord: function(e) {
 				var self = this;
 				this.model.save({
-					patientAddress: this.ui.patientAddress.val(),
+					patientId: this.ui.patientAddress.val(),
+					dateOfBirth: this.ui.dateOfBirth.val(),
 					patientBloodType: this.ui.patientBloodType.val()
 				}, { success: function(model, response) {
-					console.log("success", self.ui.messages);
+					console.log("success", self.ui);
 					self.ui.messages.html("Successfully created Medical Record!");
 					self.ui.messages.removeClass('hidden');
 				}});
