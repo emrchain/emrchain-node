@@ -75,7 +75,7 @@ app.get('/patient/:patientAddress', function(req, res){
 	        	var item = {
 	        		"assetId" : body.utxos[i].assets[j].assetId,
 	        		"blocktime" : body.utxos[i].blocktime
-	        	}
+	        	};
 	        	records.push(item);
 	        	lastAssetId = item.assetId;
 	        }
@@ -86,7 +86,7 @@ app.get('/patient/:patientAddress', function(req, res){
 	    	var asset = {
     			assetId: lastAssetId
 			};
-	
+
 		    colu.coloredCoins.getAssetData(asset,function (err, body) {
 		        if (err){
 					res.status(404);
@@ -94,14 +94,14 @@ app.get('/patient/:patientAddress', function(req, res){
 		        } 
 		        console.log("AssetData: ", util.inspect(body, {depth:10}));
 				var metadata = body.assetData[0].metadata.metadataOfIssuence.data;
-				console.log("metadata", metadata)
+				console.log("metadata", metadata);
 				res.status(200).json({
 					data: {
-					"lastMetadata" : metadata,
+						"lastMetadata" : metadata,
 						"records": records
 					}
 				});
-		    })	    	
+		    })
 	    }
 	    else{
 	    	console.log('no recs');
@@ -174,7 +174,7 @@ app.post('/record', function(req, res){
  		reissueable: false,
 	    metadata: medicalRecord,
 	    transfer: [{
-        	address: toAddress, 
+        	address: toAddress,
         	amount: 1
     	}]
 	};
@@ -190,7 +190,7 @@ app.post('/record', function(req, res){
 		console.log("receiving address: ", body.receivingAddresses);
 		res.status(201).json({
 			record: {
-				"txid" : body.txid,				
+				"txid" : body.txid,
 				"assetId" : body.assetId,
 				"issueAddress" : body.issueAddress
 			}
