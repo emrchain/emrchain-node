@@ -7,12 +7,11 @@ define([
 		'views/item/patient_view',
 		'views/item/mrecord_view',
 		'views/collection/mrecords_view',
-		'models/patient',
 		'models/doctor',
 		'models/mrecord'
 	],
 	function( Backbone, Marionette, Globals, AppContainerTmpl, DoctorView, PatientView,
-			  MRecordView, MRecordsView, PatientModel, DoctorModel, MRecordModel ) {
+			  MRecordView, MRecordsView, DoctorModel, MRecordModel ) {
 		'use strict';
 
 		/* Return a Layout class definition */
@@ -95,8 +94,7 @@ define([
 				this.ui.navDoctors.addClass('active');
 			},
 			onPatientsNavigated: function() {
-				var patient = new PatientModel();
-				var patientView = new PatientView({ model: patient });
+				var patientView = new PatientView();
 				this.contentRegion.show(patientView);
 
 				this.$el.find('.navButton.active').removeClass('active');
