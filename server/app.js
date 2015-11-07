@@ -117,11 +117,34 @@ app.post('/patient', function(req, res){
 	var ck = CoinKey.createRandom(ci('BTC-TEST'));
 	console.log('Created Patient Private Key', ck.privateWif);
 	console.log('Created Patient Public Key', ck.publicAddress);
-	res.status(201).json({
-		patient: {
-			public_key: ck.publicAddress,
-			private_key: ck.privateWif
+
+	var asset = {
+		amount: 1,
+		reissueable: false,
+		metadata: {
+			patientId : ck.publicAddress,
+			dateOfBirth : req.body.dateOfBirth,
+			gender : req.body.gender,
+			patientBloodType: req.body.patientBloodType
+		},
+		transfer: [{
+			address: ck.publicAddress,
+			amount: 1
+		}]
+	};
+
+	console.log("Create & Send asset");
+	colu.issueAsset(asset, function (err, body) {
+		if (err) {
+			console.log("Create asset - error");
+			res.status(500).json({ error: err });
 		}
+		res.status(201).json({
+			patient: {
+				public_key: ck.publicAddress,
+				private_key: ck.privateWif
+			}
+		});
 	});
 });
 

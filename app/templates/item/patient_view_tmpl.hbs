@@ -19,20 +19,27 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="patientName">First Name</label>
+        <label for="firstName">First Name</label>
         <input type="text" class="form-control" id="firstName" required value="{{ firstName }}">
     </div>
     <div class="form-group">
-        <label for="patientName">Last Name</label>
+        <label for="lastName">Last Name</label>
         <input type="text" class="form-control" id="lastName" required value="{{ lastName }}">
     </div>
     <div class="form-group">
-        <label for="patientName">PPS No.</label>
-        <input type="text" class="form-control" id="ppsNumber" required value="{{ ppsNumber }}">
+        <label for="gender">Gender</label>
+        <select class="form-control" id="gender" required>
+            <option selected="selected">{{ gender }}</option>
+            <option>Male</option>
+        </select>
     </div>
     <div class="form-group">
-        <label for="patientName">Date of Birth</label>
+        <label for="dateOfBirth">Date of Birth</label>
         <input type="date" class="form-control" id="dateOfBirth" required value="{{ dateOfBirth }}">
+    </div>
+    <div class="form-group">
+        <label for="patientBloodType">Patient Blood Type</label>
+        <input type="text" class="form-control" id="patientBloodType" required value="{{ patientBloodType }}">
     </div>
     <button id="register-button" class="btn btn-default">Register</button>
 </div>

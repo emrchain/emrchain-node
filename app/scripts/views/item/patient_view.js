@@ -22,7 +22,8 @@ function( Backbone, PatientModel, PatientViewTmpl  ) {
     	ui: {
 			firstName: '#firstName',
 			lastName: '#lastName',
-			ppsNumber: '#ppsNumber',
+			gender: '#gender',
+			patientBloodType: '#patientBloodType',
 			dateOfBirth: '#dateOfBirth',
 			registerPatientButton: '#register-button',
 			messages: '#messages',
@@ -47,7 +48,8 @@ function( Backbone, PatientModel, PatientViewTmpl  ) {
 			this.model.save({
 				firstName: this.ui.firstName.val(),
 				lastName: this.ui.lastName.val(),
-				ppsNumber: this.ui.ppsNumber.val(),
+				gender: this.ui.gender.val(),
+				patientBloodType: this.ui.patientBloodType.val(),
 				dateOfBirth: this.ui.dateOfBirth.val()
 			}, { success: function(model, response) {
 				console.log("success", self);
