@@ -45,7 +45,7 @@ app.use(function(req, res, next){
 app.use(express.static( path.join( __dirname, '../app') ));
 app.use(express.static( path.join( __dirname, '../.tmp') ));
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 
 // route index.html
@@ -91,19 +91,18 @@ app.post('/record', function(req, res){
 
 	var asset = {
     	amount: 1,
-	    metadata: {
-	    	medicalRecord : medicalRecord
-	    }
-	}
+		reissueable: false,
+	    metadata: medicalRecord
+	};
 
 	colu.issueAsset(asset, function (err, body) {
         if (err) return console.error(err);
-        console.log(body.issueAddress);      
-        console.log(body.receivingAddresses);      
+        console.log(body.issueAddress);
+        console.log(body.receivingAddresses);
        res.status(201).json({
 			record: { "assetId" : body.assetId }
 		});
-    });	
+    });
 
 });
 

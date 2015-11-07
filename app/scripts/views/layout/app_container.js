@@ -5,13 +5,11 @@ define([
 		'hbs!tmpl/layout/app_container_tmpl',
 		'views/item/doctor_view',
 		'views/item/patient_view',
-		'views/item/mrecord_view',
-		'views/collection/mrecords_view',
-		'models/doctor',
-		'models/mrecord'
+		'views/item/get_patient_view',
+		'views/collection/mrecords_view'
 	],
 	function( Backbone, Marionette, Globals, AppContainerTmpl, DoctorView, PatientView,
-			  MRecordView, MRecordsView, DoctorModel, MRecordModel ) {
+			  GetPatientView, MRecordsView ) {
 		'use strict';
 
 		/* Return a Layout class definition */
@@ -100,8 +98,8 @@ define([
 				this.ui.navPatients.addClass('active');
 			},
 			onCreateRecordsNavigated: function() {
-				var mRecordView = new MRecordView();
-				this.contentRegion.show(mRecordView);
+				var getPatientView = new GetPatientView();
+				this.contentRegion.show(getPatientView);
 
 				this.$el.find('.navButton.active').removeClass('active');
 				this.ui.navCreateRecords.addClass('active');
