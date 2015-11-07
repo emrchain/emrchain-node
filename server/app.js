@@ -73,7 +73,9 @@ app.get('/patient/:patientAddress', function(req, res){
 	    }
 
 		res.status(200).json({
-			records
+			records: {
+				"records": records
+			}
 		});
 		
 	});
@@ -107,7 +109,7 @@ app.post('/doctor', function(req, res){
 
 app.post('/record', function(req, res){
 	console.log('Create Medical Record');
-	var toAddress = req.body.toAddress;
+	var toAddress = req.body.patientId;
 	var medicalRecord = {
 		patientId : req.body.patientId,
 		dateOfBirth : req.body.dateOfBirth,
