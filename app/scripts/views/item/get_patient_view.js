@@ -1,9 +1,11 @@
 define([
 	'backbone',
 	'globals',
+	'qrcode',
+	'qcode-decoder',
 	'hbs!tmpl/item/get_patient_view_tmpl'
 ],
-function( Backbone, Global, GetPatientViewTmpl  ) {
+function( Backbone, Global, QRCode, QCodeDecoder, GetPatientViewTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -20,7 +22,8 @@ function( Backbone, Global, GetPatientViewTmpl  ) {
 			patientAddress: '#patientAddress',
 			getPatientButton: '#get-patient-button',
 			messages: '#messages',
-			createRecordContent: '#create-record-content'
+			createRecordContent: '#create-record-content',
+			qrCanvas: '#webcodecam-canvas',
 		},
 
 		/* Ui events hash */
@@ -29,7 +32,21 @@ function( Backbone, Global, GetPatientViewTmpl  ) {
 		},
 
 		/* on render callback */
-		onRender: function() {},
+		onRender: function() {
+			var self = this;
+			var qr = new QCodeDecoder();
+			var cameraCanvas = $('<video autoplay width="320">').get()[0];
+			qr.decodeFromCamera(cameraCanvas, function(er, res) {
+				if(res) {
+					self.model.set({patientAddress: res});
+					self.ui.patientAddress.val(res);
+					console.log(res);
+					qr.stop();
+					self.onClickGetPatient(null);
+				}
+			});
+			this.ui.qrCanvas.append(cameraCanvas);
+		},
 
 		onClickGetPatient: function(e) {
 			var self = this;
