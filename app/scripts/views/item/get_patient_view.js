@@ -1,8 +1,9 @@
 define([
 	'backbone',
+	'globals',
 	'hbs!tmpl/item/get_patient_view_tmpl'
 ],
-function( Backbone, GetPatientViewTmpl  ) {
+function( Backbone, Global, GetPatientViewTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -33,7 +34,20 @@ function( Backbone, GetPatientViewTmpl  ) {
 		onRender: function() {},
 
 		onClickGetPatient: function(e) {
-
+			$.ajax({
+				url: Global.apiBase + '/patient/' + this.ui.patientAddress.val(), // TODO validate for bollox
+				type: 'GET',
+				contentType: 'application/json; charset=utf-8',
+				success: function (response) {
+					console.log(response);
+				},
+				error:function (xhr, ajaxOptions, thrownError){
+					if(xhr.status==404) {
+						console.log('Patient not found, create a new one.');
+					}
+					// TODO handle else
+				}
+			});
 		}
 	});
 
