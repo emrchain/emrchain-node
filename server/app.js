@@ -7,7 +7,8 @@ var async = require('async');
 var hbs = require('express-hbs');
 var baucis = require('baucis');
 var Colu = require('colu');
-var bitcoin = require('bitcoinjs-lib');
+var CoinKey = require('coinkey');
+var ci = require('coininfo');
 var bodyParser = require('body-parser');
 var util = require('util');
 var Redis = require('ioredis');
@@ -60,10 +61,12 @@ app.get('/', function(req, res){
 app.get('/patient/:patientAddress', function(req, res){
 	colu.coloredCoins.getAddressInfo(req.params.patientAddress, function (err, body) {
 		if (err) return console.error(err);
-		
-		// verify etc. res.status(200).json({});
+
+		console.log('get patient', req.params.patientAddress);
+		console.log(err);
+		console.log(body);
         var records=[];
-		
+
 		//loop through patient records
 		for(var i=0 ; i<body.utxos.length;i++){
 	        for(var j=0 ; j<body.utxos[i].assets.length;j++){
@@ -77,32 +80,32 @@ app.get('/patient/:patientAddress', function(req, res){
 				"records": records
 			}
 		});
-		
+
 	});
 });
 
 app.post('/patient', function(req, res){
 	console.log('Create Patient');
-	var keyPair = bitcoin.ECPair.makeRandom();
-	console.log('Created Patient Private Key', keyPair.toWIF());
-	console.log('Created Patient Public Key', keyPair.getAddress());
+	var ck = CoinKey.createRandom(ci('BTC-TEST'));
+	console.log('Created Patient Private Key', ck.privateWif);
+	console.log('Created Patient Public Key', ck.publicAddress);
 	res.status(201).json({
 		patient: {
-			public_key: keyPair.getAddress(),
-			private_key: keyPair.toWIF()
+			public_key: ck.publicAddress,
+			private_key: ck.privateWif
 		}
 	});
 });
 
 app.post('/doctor', function(req, res){
 	console.log('Create Doctor');
-	var keyPair = bitcoin.ECPair.makeRandom();
-	console.log('Created Doctor Private Key', keyPair.toWIF());
-	console.log('Created Doctor Public Key', keyPair.getAddress());
-	redis.set(keyPair.toWIF(), keyPair.getAddress());
+	var ck = CoinKey.createRandom(ci('BTC-TEST'));
+	console.log('Created Doctor Private Key', ck.privateWif);
+	console.log('Created Doctor Public Key', ck.publicAddress);
+	redis.set(ck.publicAddress, ck.privateWif);
 	res.status(201).json({
 		patient: {
-			public_key: keyPair.getAddress()
+			public_key: ck.publicAddress
 		}
 	});
 });
@@ -119,59 +122,33 @@ app.post('/record', function(req, res){
 	var asset = {
     	amount: 1,
 		reissueable: false,
-	    metadata: medicalRecord
+	    metadata: medicalRecord,
+		transfer: [{
+			address: toAddress,
+			amount: 1
+		}]
 	};
 
-	async.waterfall([
-		function createAsset( cbAsync ){
-			console.log("Create asset");
-			colu.issueAsset(asset, function (err, body) {
-		        if (err) {
-					console.log("Create asset - error");
-		        	cbAsync(err)
-		        }
-		        console.log("issue address" + body.issueAddress);
-		        console.log("receiving address" + body.receivingAddresses[0]);
-				cbAsync(null, body.assetId, body.issueAddress, toAddress, res);
-		    });
-
-		},
-		function sendAsset(assetId, fromAddress, toAddress,res, cbAsync){
-			transferAsset (assetId, toAddress, fromAddress, res);
-			cbAsync(null);
+	console.log("Create & Send asset");
+	colu.issueAsset(asset, function (err, body) {
+		if (err) {
+			console.log("Create asset - error");
+			res.status(500).json({ error: err });
 		}
-	], function asyncComplete(err) {
-        if ( err ) {
-			console.log("Final error");
-            console.log(err);
-        }
-		console.log("complete");
-	});
-
-});
-function transferAsset (assetId, toAddress, fromAddress, res) {
-	console.log('Transfer Medical Record');
- 	var args = {
-	    from: [fromAddress],
-	    to: [{
-	    		address: toAddress,
-		        assetId: assetId,
-		        amount: 1
-		    }]
-	};
-	console.log(args);
-	colu.sendAsset(args, function (err, body) {
-        if (err) return console.error(err);
-        console.log(body);
-       res.status(201).json({
-			record: { 
-				"txid" : body.txid, 						
+		console.log("response: ", body);
+		console.log("issue address: ", body.issueAddress);
+		console.log("receiving address: ", body.receivingAddresses);
+		res.status(201).json({
+			record: {
+				"txid" : body.txid,
 				"assetId" : body.assetId,
 				"issueAddress" : body.issueAddress
 			}
 		});
-    });
-}
+	});
+
+});
+
 app.put('/record', function(req, res){
 	var toAddress = req.query.toAddress;
 	var fromAddress = req.query.fromAddress;
@@ -189,7 +166,7 @@ app.get('/record', function(req, res){
 	// TODO: Change to getAssetMetaData
     colu.coloredCoins.getAssetData(asset,function (err, body) {
         if (err) return console.error(err);
-        console.log("AssetData: ",util.inspect(body, {depth:10}));
+        console.log("AssetData: ", util.inspect(body, {depth:10}));
 		res.status(201).json({
 			record: {
 				assetId : body.assetId,
