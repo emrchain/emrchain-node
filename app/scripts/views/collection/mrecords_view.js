@@ -7,24 +7,28 @@ define([
 function( Backbone, MRecordsCollection, MRecordItemView, MRecordsViewTmpl ) {
     'use strict';
 
-	/* Return a ItemView class definition */
-	return Backbone.Marionette.CollectionView.extend({
-
-		initialize: function() {
-			console.log("initialize a MrecordsView CollectionView");
-		},
+	return Backbone.Marionette.LayoutView.extend({
+		tagName: 'div',
+		id: 'HistoryView',
 
 		template: MRecordsViewTmpl,
+		childView: MRecordItemView,
+		regions: {
+			'historyTable': '#history-table'
+		},
 
+		initialize: function(options) {
+			this.collection = new MRecordsCollection();
 
-    	/* ui selector cache */
-    	ui: {},
+			//this.listenTo(this.collection, 'all', this.render);
+			//this.collection.fetch();
+		},
 
-		/* Ui events hash */
+		ui: {},
 		events: {},
 
-		/* on render callback */
-		onRender: function() {}
+		onRender: function() {
+		}
 	});
 
 });
