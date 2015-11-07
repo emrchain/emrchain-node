@@ -64,6 +64,19 @@ app.post('/patient', function(req, res){
 	});
 });
 
+app.post('/doctor', function(req, res){
+	console.log('Create Doctor');
+	var keyPair = bitcoin.ECPair.makeRandom();
+	console.log('Created Doctor Private Key', keyPair.toWIF());
+	console.log('Created Doctor Public Key', keyPair.getAddress());
+	res.status(201).json({
+		patient: {
+			public_key: keyPair.getAddress(),
+			private_key: keyPair.toWIF()
+		}
+	});
+});
+
 app.post('/record', function(req, res){
 	console.log('Create Medical Record');
 	var medicalRecord = {

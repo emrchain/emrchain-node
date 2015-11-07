@@ -1,1 +1,15 @@
 <h1 class="page-header">Register a Doctor</h1>
+
+<div class="register-doctor">
+    <div class="form-group">
+        <label for="doctorName">Doctor's Name</label>
+        <input type="text" class="form-control" id="doctorName" required value="{{ doctorName }}">
+        <label for="doctorLastname">Doctor's Lastname</label>
+        <input type="text" class="form-control" id="doctorLastname" required value="{{ doctorLastname }}">
+        <label for="doctorId">Doctor's ID</label>
+        <input type="text" class="form-control" id="doctorId" required value="{{ doctorId }}">
+        <label for="doctorLocation">Location</label>
+        <input type="text" class="form-control" id="doctorLocation" required value="{{ doctorLocation }}">
+    </div>
+    <button id="register-button" class="btn btn-default">Register</button>
+</div>
