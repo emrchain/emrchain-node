@@ -1,8 +1,18 @@
 <h1 class="page-header">Create a Medical Record</h1>
 
+
 <div id="create-record-content">
     <pre id="messages" class="alert alert-success hidden" role="alert"></pre>
     <div class="get-patient">
+
+        <div class="col-md-6">
+            <div class="thumbnail" id="result">
+                <div class="well">
+                    <div id="webcodecam-canvas"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="form-group">
             <label for="patientAddress">Patient ID</label>
             <input type="text" class="form-control" id="patientAddress" required value="{{ patientAddress }}">

@@ -41,6 +41,9 @@ require.config({
 		/* alias the bootstrap js lib */
 		bootstrap: 'vendor/bootstrap',
 
+		qrcode: '../bower_components/qcode-decoder/build/qrcode',
+		'qcode-decoder': '../bower_components/qcode-decoder/src/qcode-decoder',
+
 		/* Alias text.js for template loading and shortcut the templates dir to tmpl */
 		text: '../bower_components/requirejs-text/text',
 		tmpl: "../templates",
