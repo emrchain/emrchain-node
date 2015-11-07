@@ -9,6 +9,7 @@ var baucis = require('baucis');
 var Colu = require('colu');
 var bitcoin = require('bitcoinjs-lib');
 var bodyParser = require('body-parser');
+var util = require('util')        
 
 var coluSettings = {
 	network: 'testnet',
@@ -80,9 +81,19 @@ app.post('/record', function(req, res){
 app.get('/record', function(req, res){
 	console.log('Get Medical Record by Asset Address');
 	console.log(req.query);
-	res.status(201).json({
-		record: { }
-	});
+	var asset = {
+    	assetId: req.query.assetId
+	}
+    colu.coloredCoins.getAssetData(asset,function (err, body) {
+        if (err) return console.error(err)
+        console.log("AssetData: ",util.inspect(body, {depth:10}))
+		res.status(201).json({
+			record: {
+				assetId : body.assetId,
+				medicalRecord : body.assetData[0].metadata.metadataOfIssuence.data
+			}
+		});
+    })
 });
 
 
