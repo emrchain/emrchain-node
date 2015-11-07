@@ -101,11 +101,38 @@ app.post('/record', function(req, res){
         console.log(body.issueAddress);      
         console.log(body.receivingAddresses);      
        res.status(201).json({
-			record: { "assetId" : body.assetId }
+			record: { 
+				"assetId" : body.assetId,
+				"issueAddress" : body.issueAddress
+			 }
 		});
     });	
 
 });
+
+app.put('/record', function(req, res){
+	console.log('Transfer Medical Record');
+	var toAddress = req.query.toAddress;
+	var fromAddress = req.query.fromAddress;
+	var args = {
+	    from: [fromAddress],
+	    to: [{
+		        address: toAddress,
+		        assetId: req.query.assetId,
+		        amount: 1
+		    }]
+	}
+	console.log(args);
+	colu.sendAsset(args, function (err, body) {
+        if (err) return console.error(err);
+        console.log(body);      
+       res.status(201).json({
+			record: { "txid" : body.txid }
+		});
+    });	
+
+});
+
 
 app.get('/record', function(req, res){
 	console.log('Get Medical Record by Asset Address');
@@ -113,6 +140,7 @@ app.get('/record', function(req, res){
 	var asset = {
     	assetId: req.query.assetId
 	};
+	// TODO: Change to getAssetMetaData
     colu.coloredCoins.getAssetData(asset,function (err, body) {
         if (err) return console.error(err);
         console.log("AssetData: ",util.inspect(body, {depth:10}));
