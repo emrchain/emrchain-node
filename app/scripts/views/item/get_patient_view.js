@@ -23,7 +23,7 @@ function( Backbone, Global, QRCode, QCodeDecoder, GetPatientViewTmpl  ) {
 			getPatientButton: '#get-patient-button',
 			messages: '#messages',
 			createRecordContent: '#create-record-content',
-			qrCanvas: '#webcodecam-canvas',
+			qrCanvas: '#webcodecam-canvas'
 		},
 
 		/* Ui events hash */
@@ -35,7 +35,7 @@ function( Backbone, Global, QRCode, QCodeDecoder, GetPatientViewTmpl  ) {
 		onRender: function() {
 			var self = this;
 			var qr = new QCodeDecoder();
-			var cameraCanvas = $('<video autoplay width="320">').get()[0];
+			var cameraCanvas = $('<video autoplay width="320" height="240">').get()[0];
 			qr.decodeFromCamera(cameraCanvas, function(er, res) {
 				if(res) {
 					self.model.set({patientAddress: res});
