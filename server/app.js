@@ -117,14 +117,11 @@ app.put('/record', function(req, res){
 
 	var toAddress = req.query.toAddress;
 	var fromAddress = req.query.fromAddress;
-	var doctorAddress = req.query.doctorAddress;
-	var pubKeys = [ doctorAddress,toAddress];
  
  	var args = {
 	    from: [fromAddress],
 	    to: [{
-		        pubKeys: pubKeys,
-		        m: 2,
+	    		address: toAddress,
 		        assetId: req.query.assetId,
 		        amount: 1
 		    }]
@@ -159,30 +156,6 @@ app.get('/record', function(req, res){
 		});
     })
 });
-
-// Multi-sig code
-// create_multisig_address.js
-function newMultisigAddress (patientAddress, doctorAddress) {
-	var raw_privKeys = [patientAddress, doctorAddress];
-
-
-	var pubKeys = raw_privKeys.map(function (key) {
-		return key.pub.toHex();
-	})
-
-	var raw_pubkeys = pubKeys.map(bitcoin.ECPubKey.fromHex);
-	var redeemScript = bitcoin.scripts.multisigOutput(2, raw_pubkeys);
-	var scriptPubKey = bitcoin.scripts.scriptHashOutput(redeemScript.getHash());
-	var multisigAddress = bitcoin.Address.fromOutputScript(scriptPubKey, bitcoin.networks.testnet).toString();
-
-	// Do we need this code?
-	console.log('redeemScript',redeemScript.toHex())
-	var wifs = raw_privKeys.map(function(key){return key.toWIF()})
-	console.log('privKeys (wif)',wifs)
-	console.log('pubKeys', pubKeys)
-
-	return multisigAddress
-}
 
 
 
