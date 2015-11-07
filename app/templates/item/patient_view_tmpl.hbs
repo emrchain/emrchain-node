@@ -1,9 +1,22 @@
 <h1 class="page-header">Register a Patient</h1>
 
 <div class="register-patient">
+    <pre id="messages" class="alert alert-success hidden" role="alert"></pre>
     <div class="form-group">
-        <label for="patientName">Patient's Name</label>
-        <input type="text" class="form-control" id="patientName" required value="{{ patientName }}">
+        <label for="patientName">First Name</label>
+        <input type="text" class="form-control" id="firstName" required value="{{ firstName }}">
+    </div>
+    <div class="form-group">
+        <label for="patientName">Last Name</label>
+        <input type="text" class="form-control" id="lastName" required value="{{ lastName }}">
+    </div>
+    <div class="form-group">
+        <label for="patientName">PPS No.</label>
+        <input type="text" class="form-control" id="ppsNumber" required value="{{ ppsNumber }}">
+    </div>
+    <div class="form-group">
+        <label for="patientName">Date of Birth</label>
+        <input type="date" class="form-control" id="dateOfBirth" required value="{{ dateOfBirth }}">
     </div>
     <button id="register-button" class="btn btn-default">Register</button>
 </div>

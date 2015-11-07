@@ -2,8 +2,9 @@ FROM mhart/alpine-node:0.12
 
 WORKDIR /src
 
-RUN mkdir app && \
-      mkdir server
+RUN apk --update add git && \
+	mkdir app && \
+    mkdir server
 
 COPY package.json ./
 
