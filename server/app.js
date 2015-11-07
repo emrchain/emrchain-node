@@ -8,6 +8,7 @@ var hbs = require('express-hbs');
 var baucis = require('baucis');
 var Colu = require('colu');
 var bitcoin = require('bitcoinjs-lib');
+var bodyParser = require('body-parser');
 
 var coluSettings = {
 	network: 'testnet',
@@ -41,6 +42,7 @@ app.use(function(req, res, next){
 app.use(express.static( path.join( __dirname, '../app') ));
 app.use(express.static( path.join( __dirname, '../.tmp') ));
 
+app.use(bodyParser.json())
 
 // route index.html
 app.get('/', function(req, res){
@@ -62,9 +64,39 @@ app.post('/patient', function(req, res){
 
 app.post('/record', function(req, res){
 	console.log('Create Medical Record');
-	res.status(201).json({
-		record: { }
-	});
+	console.log(req.body);
+	var recordData=req.body;
+
+	var asset = {
+    amount: 1,
+	    metadata: {
+	    	recordData
+	    }
+	}
+
+	colu.issueAsset(asset, function (err, body) {
+        if (err) return console.error(err);        
+        
+        res.status(201).json({
+			record: { body }
+		});
+    });
+
+});
+
+app.get('/record' , function(res){
+
+	var assetId = 'LDQ8VCDbxyKEycasrbKbFaoBVKs7ko8iY32HY';
+	var txid = '395ab8cbe8b27a7ba05169ca02b5b52f74298079c7943feec41bd0d06d16e58c';
+	var utxo = txid+':1';
+
+	colu.coloredCoins.getAssetMetadata(assetId, utxo, function (err, body) {
+
+        if (err) return console.error(err)
+        
+        console.log("Body: ", body);
+    })
+	
 });
 
 // start server
@@ -74,4 +106,3 @@ http.createServer(app).listen(app.get('port'), function(){
 
 
 colu.init();
-
