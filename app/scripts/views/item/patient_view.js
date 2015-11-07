@@ -39,6 +39,7 @@ function( Backbone, PatientModel, PatientViewTmpl  ) {
 				patientName: this.ui.patientName.val()
 			});
 			console.log('model', this.model);
+			this.model.save();
 		}
 	});
 

@@ -12,13 +12,7 @@ function( Backbone ) {
 			console.log("initialize a Patient model");
 		},
 
-		defaults: {
-			patientName: 'Test!'
-		},
-
-		validation: {
-			name: { required: true }
-		}
+		defaults: {},
 
     });
 });
