@@ -8,6 +8,7 @@ var hbs = require('express-hbs');
 var baucis = require('baucis');
 var Colu = require('colu');
 var bitcoin = require('bitcoinjs-lib');
+var bodyParser = require('body-parser');
 
 var coluSettings = {
 	network: 'testnet',
@@ -18,6 +19,8 @@ var coluSettings = {
 // init express
 var app = express();
 var colu = new Colu(coluSettings);
+app.use(bodyParser());
+
 
 colu.on('connect', function () {
 	var privateSeed = colu.hdwallet.getPrivateSeed();
@@ -62,6 +65,16 @@ app.post('/patient', function(req, res){
 
 app.post('/record', function(req, res){
 	console.log('Create Medical Record');
+	console.log(req.body);
+	var patientId = req.body.patientId;
+	console.log(patientId)
+	var medicalRecord = {
+		patientId = req.body.patientId
+		// dateofBirth = req.body.dateofBirth,
+		// gender = req.body.gender
+    	}
+	console.log('Dump');
+	console.log(medicalRecord);
 	res.status(201).json({
 		record: { }
 	});
