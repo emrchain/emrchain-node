@@ -19,6 +19,8 @@ var coluSettings = {
 // init express
 var app = express();
 var colu = new Colu(coluSettings);
+app.use(bodyParser());
+
 
 colu.on('connect', function () {
 	var privateSeed = colu.hdwallet.getPrivateSeed();
@@ -64,39 +66,29 @@ app.post('/patient', function(req, res){
 
 app.post('/record', function(req, res){
 	console.log('Create Medical Record');
-	console.log(req.body);
-	var recordData=req.body;
-
+	
+	var medicalRecord = {
+		patientId : req.body.patientId,
+		dateofBirth : req.body.dateofBirth,
+		gender : req.body.gender
+    	};
+	console.log(medicalRecord);
+	
 	var asset = {
     amount: 1,
 	    metadata: {
-	    	recordData
+	    	medicalRecord
 	    }
 	}
 
 	colu.issueAsset(asset, function (err, body) {
         if (err) return console.error(err);        
         
-        res.status(201).json({
-			record: { body }
+       res.status(201).json({
+			record: { "assetId" : body.assetId }
 		});
     });
 
-});
-
-app.get('/record' , function(res){
-
-	var assetId = 'LDQ8VCDbxyKEycasrbKbFaoBVKs7ko8iY32HY';
-	var txid = '395ab8cbe8b27a7ba05169ca02b5b52f74298079c7943feec41bd0d06d16e58c';
-	var utxo = txid+':1';
-
-	colu.coloredCoins.getAssetMetadata(assetId, utxo, function (err, body) {
-
-        if (err) return console.error(err)
-        
-        console.log("Body: ", body);
-    })
-	
 });
 
 // start server
