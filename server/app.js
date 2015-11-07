@@ -84,25 +84,27 @@ app.post('/record', function(req, res){
 	
 	var medicalRecord = {
 		patientId : req.body.patientId,
-		dateofBirth : req.body.dateofBirth,
+		dateofBirth : req.body.dateOfBirth,
 		gender : req.body.gender
     	};
 	console.log(medicalRecord);
 	
 	var asset = {
-    amount: 1,
+    	amount: 1,
+    	// issueAddress : req.body.issueAddress,
 	    metadata: {
-	    	medicalRecord
+	    	medicalRecord : medicalRecord
 	    }
 	}
 
 	colu.issueAsset(asset, function (err, body) {
-        if (err) return console.error(err);        
-        
+        if (err) return console.error(err);
+        console.log(body.issueAddress);      
+        console.log(body.receivingAddresses);      
        res.status(201).json({
 			record: { "assetId" : body.assetId }
 		});
-    });
+    });	
 
 });
 
