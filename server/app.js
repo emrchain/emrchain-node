@@ -81,13 +81,17 @@ app.get('/patient/:patientAddress', function(req, res){
 	        }
 	    }
 	    console.log("lastassetid", lastAssetId);
+	    console.log("lastassetid.length", lastAssetId.length);
 	    if (lastAssetId.length > 0 ){
 	    	var asset = {
     			assetId: lastAssetId
 			};
 	
 		    colu.coloredCoins.getAssetData(asset,function (err, body) {
-		        if (err) return console.error(err);
+		        if (err){
+					res.status(404);
+			        return console.error(err);
+		        } 
 		        console.log("AssetData: ", util.inspect(body, {depth:10}));
 				var metadata = body.assetData[0].metadata.metadataOfIssuence.data;
 				console.log("metadata", metadata)
@@ -100,13 +104,8 @@ app.get('/patient/:patientAddress', function(req, res){
 		    })	    	
 	    }
 	    else{
-			res.status(200).json({
-				data: {
-					"lastMetadata" : '',
-					"records": records
-				}
-			});
-
+	    	console.log('no recs');
+			res.status(404).json({});
 	    }
 
 	});
