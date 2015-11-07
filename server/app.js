@@ -60,9 +60,22 @@ app.get('/', function(req, res){
 app.get('/patient/:patientAddress', function(req, res){
 	colu.coloredCoins.getAddressInfo(req.params.patientAddress, function (err, body) {
 		if (err) return console.error(err);
-		console.log(body);
+		
 		// verify etc. res.status(200).json({});
-		res.status(404).json({});
+        var records=[];
+		
+		//loop through patient records
+		for(var i=0 ; i<body.utxos.length;i++){
+	        for(var j=0 ; j<body.utxos[i].assets.length;j++){
+	        	console.log(body.utxos[i].assets[j]);
+	        	records.push(body.utxos[i].assets[j].assetId);
+	        }
+	    }
+
+		res.status(200).json({
+			records
+		});
+		
 	});
 });
 
