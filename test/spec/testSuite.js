@@ -8,6 +8,7 @@ define(function() {
 		'spec/collections/partner_sales.js',
 		'spec/collections/partners.js',
 		'spec/collections/sales.js',
+		'spec/controllers/patientController.js',
 		'spec/exampleTest.js',
 		'spec/models/doctor.js',
 		'spec/models/mrecord.js',

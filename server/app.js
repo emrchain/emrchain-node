@@ -6,11 +6,23 @@ var path = require('path');
 var async = require('async');
 var hbs = require('express-hbs');
 var baucis = require('baucis');
+var Colu = require('colu');
+var bitcoin = require('bitcoinjs-lib');
 
-
+var coluSettings = {
+	network: 'testnet',
+	privateSeed: '5b5dc4509ff10a38b90916f23ab3fb50a534ddcb30f6cd003f8eb8ca09eb02af',
+	redisHost: '159.122.238.144'
+};
 
 // init express
 var app = express();
+var colu = new Colu(coluSettings);
+
+colu.on('connect', function () {
+	var privateSeed = colu.hdwallet.getPrivateSeed();
+	console.log("privateSeed: ", privateSeed)
+});
 
 app.configure(function(){
     app.set('port', process.env.PORT || 80);
@@ -35,10 +47,31 @@ app.get('/', function(req, res){
   res.sendfile( path.join( __dirname, '../app/index.html' ) );
 });
 
+app.post('/patient', function(req, res){
+	console.log('Create Patient');
+	var keyPair = bitcoin.ECPair.makeRandom();
+	console.log('Created Patient Private Key', keyPair.toWIF());
+	console.log('Created Patient Public Key', keyPair.getAddress());
+	res.status(201).json({
+		patient: {
+			public_key: keyPair.getAddress(),
+			private_key: keyPair.toWIF()
+		}
+	});
+});
+
+app.post('/record', function(req, res){
+	console.log('Create Medical Record');
+	res.status(201).json({
+		record: { }
+	});
+});
+
 // start server
 http.createServer(app).listen(app.get('port'), function(){
     console.log('Express App started!');
 });
 
 
+colu.init();
 

@@ -11,18 +11,27 @@ function( Backbone, PatientViewTmpl  ) {
 		initialize: function() {
 			console.log("initialize a PatientView ItemView");
 		},
-		
+
     	template: PatientViewTmpl,
-        
+		tagName: 'div',
+		className: 'register-patient',
 
     	/* ui selector cache */
-    	ui: {},
+    	ui: {
+			registerPatientButton: '#register-button'
+		},
 
 		/* Ui events hash */
-		events: {},
+		events: {
+			'click @ui.registerPatientButton': 'onClickRegisterPatient'
+		},
 
 		/* on render callback */
-		onRender: function() {}
+		onRender: function() {},
+
+		onClickRegisterPatient: function(args) {
+			console.log('here', args);
+		}
 	});
 
 });

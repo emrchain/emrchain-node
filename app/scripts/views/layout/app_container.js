@@ -6,9 +6,13 @@ define([
 		'views/item/doctor_view',
 		'views/item/patient_view',
 		'views/item/mrecord_view',
-		'views/collection/mrecords_view'
+		'views/collection/mrecords_view',
+		'models/patient',
+		'models/doctor',
+		'models/mrecord'
 	],
-	function( Backbone, Marionette, Globals, AppContainerTmpl, DoctorView, PatientView, MRecordView, MRecordsView ) {
+	function( Backbone, Marionette, Globals, AppContainerTmpl, DoctorView, PatientView,
+			  MRecordView, MRecordsView, PatientModel, DoctorModel, MRecordModel ) {
 		'use strict';
 
 		/* Return a Layout class definition */
@@ -83,28 +87,31 @@ define([
 			},
 
 			onDoctorsNavigated: function() {
-				var doctorView = new DoctorView({ coluApiKey: Globals.coluApiKey });
+				var doctor = new DoctorModel();
+				var doctorView = new DoctorView({ model: doctor });
 				this.contentRegion.show(doctorView);
 
 				this.$el.find('.navButton.active').removeClass('active');
 				this.ui.navDoctors.addClass('active');
 			},
 			onPatientsNavigated: function() {
-				var patientView = new PatientView({ coluApiKey: Globals.coluApiKey });
+				var patient = new PatientModel();
+				var patientView = new PatientView({ model: patient });
 				this.contentRegion.show(patientView);
 
 				this.$el.find('.navButton.active').removeClass('active');
 				this.ui.navPatients.addClass('active');
 			},
 			onCreateRecordsNavigated: function() {
-				var mRecordView = new MRecordView({ coluApiKey: Globals.coluApiKey });
+				var mrecord = new MRecordModel();
+				var mRecordView = new MRecordView({ model: mrecord });
 				this.contentRegion.show(mRecordView);
 
 				this.$el.find('.navButton.active').removeClass('active');
 				this.ui.navCreateRecords.addClass('active');
 			},
 			onLookupHistoryNavigated: function() {
-				var mRecordsView = new MRecordsView({ coluApiKey: Globals.coluApiKey });
+				var mRecordsView = new MRecordsView();
 				this.contentRegion.show(mRecordsView);
 
 				this.$el.find('.navButton.active').removeClass('active');

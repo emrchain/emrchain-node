@@ -3,8 +3,11 @@
 define(function() {
 	'use strict';
 
+	var apiBaseUrl = "http://localhost:9000";
+
 	var Globals = {
-		coluApiKey: ""
+		apiBase: apiBaseUrl,
+		patientbase: apiBaseUrl + '/patients'
 	};
 
 	return Globals;
