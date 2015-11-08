@@ -37,7 +37,8 @@ function( Backbone, Global, QRCode, QCodeDecoder, GetPatientViewTmpl  ) {
 			var qr = new QCodeDecoder();
 			var cameraCanvas = $('<video autoplay width="320" height="240">').get()[0];
 			qr.decodeFromCamera(cameraCanvas, function(er, res) {
-				if(res) {
+				if(res && !self.gotPatient) {
+					self.gotPatient = true;
 					self.model.set({patientAddress: res});
 					self.ui.patientAddress.val(res);
 					console.log(res);
