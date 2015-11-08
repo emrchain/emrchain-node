@@ -1,0 +1,42 @@
+<h1 class="page-header">Create a Medical Record</h1>
+
+<div id="create-record">
+    <pre id="messages" class="alert alert-success hidden" role="alert"></pre>
+    <div class="build-record">
+        <div class="form-group">
+            <label for="patientAddress">Patient ID</label>
+            <input type="text" class="form-control" id="patientAddress" disabled value="{{ patientAddress }}">
+        </div>
+        <div class="form-group">
+            <label for="gender">Gender</label>
+			{{#if gender}}
+                <input type="text" class="form-control" id="gender" disabled value="{{ gender }}">
+			{{else}}
+                <select class="form-control" id="gender" required>
+                    <option selected="selected">Female</option>
+                    <option>Male</option>
+                </select>
+			{{/if}}
+        </div>
+        <div class="form-group">
+            <label for="dateOfBirth">Date of Birth</label>
+			{{#if dateOfBirth}}
+            	<input type="date" class="form-control" id="dateOfBirth" disabled value="{{ dateOfBirth }}">
+			{{else}}
+				<input type="date" class="form-control" id="dateOfBirth" required>
+			{{/if}}
+        </div>
+        <div class="form-group">
+            <label for="patientBloodType">Patient Blood Type</label>
+			{{#if patientBloodType}}
+                <input type="text" class="form-control" id="patientBloodType" disabled value="{{ patientBloodType }}">
+			{{else}}
+                <input type="text" class="form-control" id="patientBloodType" required>
+			{{/if}}
+        </div>
+        <div class="form-group">
+            <label for="medicalActionsTaken">Medical Actions Taken</label>
+            <textarea class="form-control" id="medicalActionsTaken" rows="3" disabled>{{ medicalActionsTaken }}</textarea>
+        </div>
+    </div>
+</div>

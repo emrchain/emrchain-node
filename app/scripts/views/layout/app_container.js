@@ -7,11 +7,12 @@ define([
 		'views/item/patient_view',
 		'views/item/get_patient_view',
 		'views/item/mrecord_view',
+		'views/item/mrecord_history_view',
 		'views/collection/mrecords_view',
 		'models/mrecord'
 	],
 	function( Backbone, Marionette, Globals, AppContainerTmpl, DoctorView, PatientView,
-			  GetPatientView, MRecordView, MRecordsView, MRecordModel ) {
+			  GetPatientView, MRecordView, MRecordHistoryView, MRecordsView, MRecordModel ) {
 		'use strict';
 
 		/* Return a Layout class definition */
@@ -56,7 +57,8 @@ define([
 					'doctors' : 'onDoctorsRoute',
 					'patients' : 'onPatientsRoute',
 					'create-records' : 'onCreateRecordsRoute',
-					'lookup-history' : 'onLookupHistoryRoute'
+					'lookup-history' : 'onLookupHistoryRoute',
+					'record/:id': 'onLookupRecordRoute'
 				};
 
 				var appRouterController = {
@@ -71,6 +73,9 @@ define([
 					},
 					onLookupHistoryRoute: function() {
 						capturedThis.onLookupHistoryNavigated();
+					},
+					onLookupRecordRoute: function(id) {
+						capturedThis.onLookupRecordNavigated(id);
 					}
 				};
 
@@ -131,6 +136,27 @@ define([
 					var view = new MRecordsView({model: model});
 					this.contentRegion.show(view);
 				}
+			},
+			onLookupRecordNavigated: function(assetId) {
+				var self = this;
+				$.ajax({
+					url: Globals.apiBase + '/record?assetId=' + assetId,
+					type: 'GET',
+					contentType: 'application/json; charset=utf-8',
+					success: function (response) {
+						console.log(response);
+						var model = new MRecordModel({
+							patientAddress: response.record.medicalRecord.patientId,
+							dateOfBirth: response.record.medicalRecord.dateOfBirth,
+							gender: response.record.medicalRecord.gender,
+							patientBloodType: response.record.medicalRecord.patientBloodType,
+							medicalActionsTaken: response.record.medicalRecord.medicalActionsTaken,
+							metadata: response.record
+						});
+						var view = new MRecordHistoryView({ model: model});
+						self.contentRegion.show(view);
+					}
+				});
 			}
 		});
 

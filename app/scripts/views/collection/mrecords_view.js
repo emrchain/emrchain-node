@@ -20,6 +20,7 @@ function( Backbone, MRecordsCollection, MRecordItemView, MRecordsViewTmpl ) {
 			metadata.records.forEach(function(record) {
 				records.push({
 					assetId: record.assetId,
+					assetUrl: 'record/' + record.assetId,
 					blocktime: record.blocktime
 				});
 			});
