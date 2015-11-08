@@ -16,7 +16,8 @@ var Redis = require('ioredis');
 var ourServer = '159.122.238.144';
 
 var coluSettings = {
-	network: 'testnet',
+	network: 'mainnet',
+	apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJlbmRhQGxpdmUuY29tIiwiZXhwIjoiMjAxNS0xMS0wN1QwMTo0Njo1My42NTNaIiwidHlwZSI6ImFwaV9rZXkifQ.3nj6v6TL6wtuK6l-c-xKsuDjyl3PWCedCfzD3LXkldo',
 	privateSeed: '5b5dc4509ff10a38b90916f23ab3fb50a534ddcb30f6cd003f8eb8ca09eb02af',
 	redisHost: ourServer
 };
@@ -109,7 +110,7 @@ app.get('/patient/:patientAddress', function(req, res){
 
 app.post('/patient', function(req, res){
 	console.log('Create Patient');
-	var ck = CoinKey.createRandom(ci('BTC-TEST'));
+	var ck = CoinKey.createRandom();
 	console.log('Created Patient Private Key', ck.privateWif);
 	console.log('Created Patient Public Key', ck.publicAddress);
 
@@ -145,7 +146,7 @@ app.post('/patient', function(req, res){
 
 app.post('/doctor', function(req, res){
 	console.log('Create Doctor');
-	var ck = CoinKey.createRandom(ci('BTC-TEST'));
+	var ck = CoinKey.createRandom();
 	console.log('Created Doctor Private Key', ck.privateWif);
 	console.log('Created Doctor Public Key', ck.publicAddress);
 	redis.set(ck.publicAddress, ck.privateWif);
