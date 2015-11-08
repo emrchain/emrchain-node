@@ -61,7 +61,8 @@ function( Backbone, Global, QRCode, QCodeDecoder, GetPatientViewTmpl  ) {
 						patientAddress: response.data.lastMetadata.patientId,
 						dateOfBirth: response.data.lastMetadata.dateOfBirth,
 						gender: response.data.lastMetadata.gender,
-						patientBloodType: response.data.lastMetadata.patientBloodType
+						patientBloodType: response.data.lastMetadata.patientBloodType,
+						metadata: response.data
 					});
 					self.model.trigger('gotPatient');
 				},

@@ -26,6 +26,7 @@ define([
 			$(document).ajaxComplete(function(){ $("#loading").fadeOut(); });
 
 			Communicator.mediator.trigger("APP:START");
+
 		});
 
 		return App;

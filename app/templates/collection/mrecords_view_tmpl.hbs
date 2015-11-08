@@ -1,5 +1,20 @@
 <h1 class="page-header">Lookup Patient Medical History</h1>
 
 <div>
-    <div id="history-table"></div>
+    <table class="table table-striped">
+        <thead>
+			<tr>
+				<th>Record Creation Datetime</th>
+				<th>Record ID</th>
+			</tr>
+        </thead>
+		<tbody>
+			{{#each records}}
+                <tr>
+                    <th scope="row">{{ blocktime }}</th>
+                    <td>{{ assetId }}</td>
+                </tr>
+			{{/each}}
+		</tbody>
+    </table>
 </div>

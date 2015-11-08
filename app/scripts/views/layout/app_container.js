@@ -101,6 +101,7 @@ define([
 			},
 			onCreateRecordsNavigated: function() {
 				var model = new MRecordModel();
+				model.set({ title: "Create a Medical Record" });
 				var self = this;
 				model.on('gotPatient', function() {self.onCreatePatientRecord(model)});
 				var getPatientView = new GetPatientView({model: model});
@@ -110,8 +111,12 @@ define([
 				this.ui.navCreateRecords.addClass('active');
 			},
 			onLookupHistoryNavigated: function() {
-				var mRecordsView = new MRecordsView();
-				this.contentRegion.show(mRecordsView);
+				var model = new MRecordModel();
+				model.set({ title: "Lookup Patient History" });
+				var self = this;
+				model.on('gotPatient', function() {self.onListPatientRecords(model)});
+				var getPatientView = new GetPatientView({model: model});
+				this.contentRegion.show(getPatientView);
 
 				this.$el.find('.navButton.active').removeClass('active');
 				this.ui.navLookupHistory.addClass('active');
@@ -119,6 +124,13 @@ define([
 			onCreatePatientRecord: function(model) {
 				var view = new MRecordView({ model: model});
 				this.contentRegion.show(view);
+			},
+			onListPatientRecords: function(model) {
+				console.log(model);
+				if(model.attributes.metadata) {
+					var view = new MRecordsView({model: model});
+					this.contentRegion.show(view);
+				}
 			}
 		});
 
