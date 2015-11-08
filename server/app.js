@@ -118,10 +118,18 @@ app.post('/patient', function(req, res){
 		amount: 1,
 		reissueable: false,
 		metadata: {
-			patientId : ck.publicAddress,
-			dateOfBirth : req.body.dateOfBirth,
-			gender : req.body.gender,
-			patientBloodType: req.body.patientBloodType
+			userData: {
+				meta: [
+					{key: 'Patient ID', value: ck.publicAddress, type: 'String'},
+					{key: 'Date Of Birth', value: req.body.dateOfBirth, type: 'Date'},
+					{key: 'Blood Type', value: req.body.patientBloodType, type: 'String'},
+					{key: 'Gender', value: req.body.gender, type: 'String'}
+				],
+				patientId : ck.publicAddress,
+				dateOfBirth : req.body.dateOfBirth,
+				gender : req.body.gender,
+				patientBloodType: req.body.patientBloodType
+			}
 		},
 		transfer: [{
 			address: ck.publicAddress,
@@ -159,13 +167,13 @@ app.post('/doctor', function(req, res){
 
 app.post('/record', function(req, res){
 	console.log('Create Medical Record');
-	var toAddress = req.body.patientId;
+	var toAddress = req.body.userData.patientId;
 	var medicalRecord = req.body;
 	console.log(medicalRecord);
 	var asset = {
     	amount: 1,
  		reissueable: false,
-	    metadata: medicalRecord,
+		metadata: medicalRecord,
 	    transfer: [{
         	address: toAddress,
         	amount: 1

@@ -59,10 +59,10 @@ function( Backbone, Global, QRCode, QCodeDecoder, GetPatientViewTmpl  ) {
 				success: function (response) {
 					console.log(response);
 					self.model.set({
-						patientAddress: response.data.lastMetadata.patientId,
-						dateOfBirth: response.data.lastMetadata.dateOfBirth,
-						gender: response.data.lastMetadata.gender,
-						patientBloodType: response.data.lastMetadata.patientBloodType,
+						patientAddress: response.data.lastMetadata.userData.patientId,
+						dateOfBirth: response.data.lastMetadata.userData.dateOfBirth,
+						gender: response.data.lastMetadata.userData.gender,
+						patientBloodType: response.data.lastMetadata.userData.patientBloodType,
 						metadata: response.data
 					});
 					self.model.trigger('gotPatient');

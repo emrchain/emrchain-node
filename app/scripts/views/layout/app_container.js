@@ -146,12 +146,12 @@ define([
 					success: function (response) {
 						console.log(response);
 						var model = new MRecordModel({
-							patientAddress: response.record.medicalRecord.patientId,
-							dateOfBirth: response.record.medicalRecord.dateOfBirth,
-							gender: response.record.medicalRecord.gender,
-							patientBloodType: response.record.medicalRecord.patientBloodType,
-							medicalActionsTaken: response.record.medicalRecord.medicalActionsTaken,
-							metadata: response.record
+							patientAddress: response.record.medicalRecord.userData.patientId,
+							dateOfBirth: response.record.medicalRecord.userData.dateOfBirth,
+							gender: response.record.medicalRecord.userData.gender,
+							patientBloodType: response.record.medicalRecord.userData.patientBloodType,
+							medicalActionsTaken: response.record.medicalRecord.userData.medicalActionsTaken,
+							metadata: response.record.userData
 						});
 						var view = new MRecordHistoryView({ model: model});
 						self.contentRegion.show(view);
