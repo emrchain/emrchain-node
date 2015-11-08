@@ -110,13 +110,19 @@ define([
 				this.ui.navCreateRecords.addClass('active');
 			},
 			onLookupHistoryNavigated: function() {
-				var mRecordsView = new MRecordsView();
-				this.contentRegion.show(mRecordsView);
+				var model = new MRecordsView();
+				var self = this;
+				model.on('gotPatient', function() {self.onLookupHistoryRecord(model)});
+				this.contentRegion.show(model);
 
 				this.$el.find('.navButton.active').removeClass('active');
 				this.ui.navLookupHistory.addClass('active');
 			},
 			onCreatePatientRecord: function(model) {
+				var view = new MRecordView({ model: model});
+				this.contentRegion.show(view);
+			},
+			onLookupHistoryRecord: function(model) {
 				var view = new MRecordView({ model: model});
 				this.contentRegion.show(view);
 			}

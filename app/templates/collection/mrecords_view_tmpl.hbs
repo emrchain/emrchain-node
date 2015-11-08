@@ -1,5 +1,33 @@
 <h1 class="page-header">Lookup Patient Medical History</h1>
 
-<div>
-    <div id="history-table"></div>
+<div id="create-record-content">
+
+    <pre id="messages" class="alert alert-success hidden" role="alert"></pre>
+
+    <div id="messages" class="alert alert-info" role="alert">
+        <p>
+            Scan patient's QR code below to access full history
+        </p>
+    </div>
+
+    <div class="get-patient">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div id="webcodecam-canvas"  width="320" height="240"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label for="patientAddress">Patient ID</label>
+                <input type="text" class="form-control" id="patientAddress" required value="{{ patientAddress }}">
+            </div>
+            <button id="get-patient-button" class="btn btn-default">Get Patient</button>
+        </div>
+    </div>
 </div>
+
+<!--<div>-->
+    <!--<div id="history-table"></div>-->
+<!--</div>-->
