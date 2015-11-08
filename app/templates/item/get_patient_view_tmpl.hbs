@@ -14,19 +14,17 @@
     <div class="get-patient">
 
         <div class="row">
-            <div class="col-xs-6 col-md-6">
-                <div id="webcodecam-canvas" width="320" height="240"></div>
+            <div class="col-md-6">
+                <div id="webcodecam-canvas"  width="320" height="240"></div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-xs-12 col-md-12">
-                <div class="form-group">
-                    <label for="patientAddress">Patient ID</label>
-                    <input type="text" class="form-control" id="patientAddress" required value="{{ patientAddress }}">
-                </div>
-                <button id="get-patient-button" class="btn btn-default">Get Patient</button>
+            <div class="form-group">
+                <label for="patientAddress">Patient ID</label>
+                <input type="text" class="form-control" id="patientAddress" required value="{{ patientAddress }}">
             </div>
+            <button id="get-patient-button" class="btn btn-default">Get Patient</button>
         </div>
     </div>
 </div>
